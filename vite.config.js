@@ -1,15 +1,15 @@
 export default {
-  // Set the base directory for GitHub pages
+  // Задайте базовий шлях для GitHub Pages
   base: '/SimCity/',
 
-  // Set the project root directory (relative to the config file)
-  root: './src',
+  // Задайте корінь проєкту для Vite (де знаходиться index.html)
+  root: './src', // змінено на ./src, оскільки ваш index.html в src
 
-  // Set the directory to serve static files from (relative to the root)
+  // Вказуємо директорію для статичних файлів
   publicDir: './public',
 
-  // Set the build output directory
+  // Вказуємо директорію для вихідних файлів після побудови
   build: {
-    outDir: './dist',
+    outDir: './dist', // файли будуть зберігатися тут після build
   },
 };
