@@ -5,7 +5,7 @@ import { City } from '../city.js';
  */
 export class SimService {
   /**
-   * @param {City} city
+   * @param {City} city 
    */
   simulate(city) {
     // Implement in subclass
