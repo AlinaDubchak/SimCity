@@ -4,43 +4,20 @@ import { createBuilding } from './buildings/buildingFactory.js';
 import { Tile } from './tile.js';
 import { VehicleGraph } from './vehicles/vehicleGraph.js';
 import { PowerService } from './services/power.js';
-import { SimService } from './services/simService.js';
 
 export class City extends THREE.Group {
-  /**
-   * Separate group for organizing debug meshes so they aren't included
-   * in raycasting checks
-   * @type {THREE.Group}
-   */
   debugMeshes = new THREE.Group();
-  /**
-   * Root node for all scene objects
-   * @type {THREE.Group}
-   */
+
   root = new THREE.Group();
-  /**
-   * List of services for the city
-   * @type {SimService}
-   */
+
   services = [];
-  /**
-   * The size of the city in tiles
-   * @type {number}
-   */
+
   size = 16;
-  /**
-   * The current simulation time
-   */
+
   simTime = 0;
-  /**
-   * 2D array of tiles that make up the city
-   * @type {Tile[][]}
-   */
+
   tiles = [];
-  /**
-   *
-   * @param {VehicleGraph} size
-   */
+
   vehicleGraph;
 
   constructor(size, name = 'My City') {
@@ -71,10 +48,6 @@ export class City extends THREE.Group {
     this.debugMeshes.add(this.vehicleGraph);
   }
 
-  /**
-   * The total population of the city
-   * @type {number}
-   */
   get population() {
     let population = 0;
     for (let x = 0; x < this.size; x++) {
@@ -86,12 +59,6 @@ export class City extends THREE.Group {
     return population;
   }
 
-  /** Returns the title at the coordinates. If the coordinates
-   * are out of bounds, then `null` is returned.
-   * @param {number} x The x-coordinate of the tile
-   * @param {number} y The y-coordinate of the tile
-   * @returns {Tile | null}
-   */
   getTile(x, y) {
     if (
       x === undefined ||
@@ -107,17 +74,11 @@ export class City extends THREE.Group {
     }
   }
 
-  /**
-   * Step the simulation forward by one step
-   * @type {number} steps Number of steps to simulate forward in time
-   */
   simulate(steps = 1) {
     let count = 0;
     while (count++ < steps) {
-      // Update services
       this.services.forEach((service) => service.simulate(this));
 
-      // Update each building
       for (let x = 0; x < this.size; x++) {
         for (let y = 0; y < this.size; y++) {
           this.getTile(x, y).simulate(this);
@@ -127,13 +88,6 @@ export class City extends THREE.Group {
     this.simTime++;
   }
 
-  /**
-   * Places a building at the specified coordinates if the
-   * tile does not already have a building on it
-   * @param {number} x
-   * @param {number} y
-   * @param {string} buildingType
-   */
   placeBuilding(x, y, buildingType) {
     const tile = this.getTile(x, y);
 
@@ -152,11 +106,6 @@ export class City extends THREE.Group {
     }
   }
 
-  /**
-   * Bulldozes the building at the specified coordinates
-   * @param {number} x
-   * @param {number} y
-   */
   bulldoze(x, y) {
     const tile = this.getTile(x, y);
 
@@ -180,15 +129,6 @@ export class City extends THREE.Group {
     this.vehicleGraph.updateVehicles();
   }
 
-  /**
-   * Finds the first tile where the criteria are true
-   * @param {{x: number, y: number}} start The starting coordinates of the search
-   * @param {(Tile) => (boolean)} filter This function is called on each
-   * tile in the search field until `filter` returns true, or there are
-   * no more tiles left to search.
-   * @param {number} maxDistance The maximum distance to search from the starting tile
-   * @returns {Tile | null} The first tile matching `criteria`, otherwiser `null`
-   */
   findTile(start, filter, maxDistance) {
     const startTile = this.getTile(start.x, start.y);
     const visited = new Set();
@@ -218,11 +158,6 @@ export class City extends THREE.Group {
     return null;
   }
 
-  /**
-   * Finds and returns the neighbors of this tile
-   * @param {number} x The x-coordinate of the tile
-   * @param {number} y The y-coordinate of the tile
-   */
   getTileNeighbors(x, y) {
     const neighbors = [];
 

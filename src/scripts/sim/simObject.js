@@ -5,20 +5,10 @@ const SELECTED_COLOR = 0xaaaa55;
 const HIGHLIGHTED_COLOR = 0x555555;
 
 export class SimObject extends THREE.Object3D {
-  /**
-   * @type {THREE.Mesh?}
-   */
   #mesh = null;
-  /**
-   * World position of the object
-   * @type {THREE.Vector3}
-   */
+
   #worldPos = new THREE.Vector3();
 
-  /**
-   * @param {number} x The x-coordinate of the object
-   * @param {number} y The y-coordinate of the object
-   */
   constructor(x = 0, y = 0) {
     super();
     this.name = 'SimObject';
@@ -36,16 +26,10 @@ export class SimObject extends THREE.Object3D {
     return Math.floor(this.#worldPos.z);
   }
 
-  /**
-   * @type {THREE.Mesh?}
-   */
   get mesh() {
     return this.#mesh;
   }
 
-  /**
-   * @type {THREE.Mesh} value
-   */
   setMesh(value) {
     if (this.#mesh) {
       this.dispose();
@@ -54,16 +38,11 @@ export class SimObject extends THREE.Object3D {
 
     this.#mesh = value;
 
-    // Add to scene graph
     if (this.#mesh) {
       this.add(this.#mesh);
     }
   }
 
-  /**
-   * Updates the state of this object by one simulation step
-   * @param {City} city
-   */
   simulate(city) {
     // Override in subclass
   }
@@ -84,10 +63,6 @@ export class SimObject extends THREE.Object3D {
     }
   }
 
-  /**
-   * Sets the emission color of the mesh
-   * @param {number} color
-   */
   #setMeshEmission(color) {
     if (!this.mesh) return;
     this.mesh.traverse((obj) => obj.material?.emissive?.setHex(color));

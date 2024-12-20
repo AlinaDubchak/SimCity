@@ -3,7 +3,7 @@ import { City } from '../city.js';
 
 export class PowerService {
   /**
-   * @param {City} city 
+   * @param {City} city
    */
   simulate(city) {
     // Find all power plants in the city
@@ -21,7 +21,7 @@ export class PowerService {
             powerPlantList.push({
               powerPlant,
               frontier: [tile],
-              visited: []
+              visited: [],
             });
           } else {
             // Reset supplier power for each building
@@ -64,7 +64,10 @@ export class PowerService {
 
           // Does this building need power?
           if (building.power.supplied < building.power.required) {
-            const powerSupplied = Math.min(powerPlant.powerAvailable, building.power.required);
+            const powerSupplied = Math.min(
+              powerPlant.powerAvailable,
+              building.power.required
+            );
             powerPlant.powerConsumed += powerSupplied;
             building.power.supplied = powerSupplied;
           }
@@ -75,7 +78,8 @@ export class PowerService {
           // Add neighboring tiles to search if
           // 1) They haven't already been visited
           // 2) The tile has a building (power can pass through non-powered buildings)
-          const shouldVisit = (tile) => tile && !visited.includes(tile) && tile.building;
+          const shouldVisit = (tile) =>
+            tile && !visited.includes(tile) && tile.building;
 
           let left = city.getTile(x - 1, y);
           let right = city.getTile(x + 1, y);
@@ -90,7 +94,7 @@ export class PowerService {
           }
           if (shouldVisit(top)) {
             frontier.push(top);
-          }            
+          }
           if (shouldVisit(bottom)) {
             frontier.push(bottom);
           }

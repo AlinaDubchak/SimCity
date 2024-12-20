@@ -73,7 +73,6 @@ export class CameraManager {
   }
 
   onMouseMove(event) {
-    // Handles the rotation of the camera
     if (event.buttons & RIGHT_MOUSE_BUTTON && !event.ctrlKey) {
       this.cameraAzimuth += -(event.movementX * AZIMUTH_SENSITIVITY);
       this.cameraElevation += event.movementY * ELEVATION_SENSITIVITY;
@@ -83,7 +82,6 @@ export class CameraManager {
       );
     }
 
-    // Handles the panning of the camera
     if (event.buttons & RIGHT_MOUSE_BUTTON && event.ctrlKey) {
       const forward = new THREE.Vector3(0, 0, 1).applyAxisAngle(
         Y_AXIS,

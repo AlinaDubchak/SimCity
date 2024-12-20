@@ -5,21 +5,10 @@ import pauseIconUrl from '/icons/pause-color.png';
 
 export class GameUI {
   constructor() {
-    /**
-     * Currently selected tool
-     * @type {string}
-     */
     this.activeToolId = 'select';
 
-    /**
-     * @type {HTMLElement | null}
-     */
     this.selectedControl = document.getElementById('button-select');
 
-    /**
-     * True if the game is currently paused
-     * @type {boolean}
-     */
     this.isPaused = false;
 
     this.initEventListeners();
@@ -44,10 +33,6 @@ export class GameUI {
     }
   }
 
-  /**
-   * Handles tool selection logic
-   * @param {Event} event
-   */
   onToolSelected(event) {
     const target = event.target.closest('[data-type]');
     if (!target) return;
@@ -77,10 +62,6 @@ export class GameUI {
     this.toggleVisibility('paused-text', this.isPaused);
   }
 
-  /**
-   * Updates the values in the title bar
-   * @param {Game} game
-   */
   updateTitleBar(game) {
     this.updateElementContent('city-name', game.city.name);
     this.updateElementContent('population-counter', game.city.population);
@@ -90,10 +71,6 @@ export class GameUI {
     this.updateElementContent('sim-time', date.toLocaleDateString());
   }
 
-  /**
-   * Updates the info panel with the information in the object
-   * @param {SimObject} object
-   */
   updateInfoPanel(object) {
     const infoElement = document.getElementById('info-panel');
     if (!infoElement) return;
@@ -119,11 +96,6 @@ export class GameUI {
     });
   }
 
-  /**
-   * Updates the inner HTML content of a specified element
-   * @param {string} elementId
-   * @param {string | number} content
-   */
   updateElementContent(elementId, content) {
     const element = document.getElementById(elementId);
     if (element) {

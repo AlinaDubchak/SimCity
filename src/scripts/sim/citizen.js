@@ -4,49 +4,19 @@ import { ResidentialZone } from './buildings/zones/residential.js';
 import config from '../config.js';
 
 export class Citizen {
-  /**
-   * @param {ResidentialZone} residence
-   */
   constructor(residence) {
-    /**
-     * Unique identifier for the citizen
-     * @type {string}
-     */
     this.id = crypto.randomUUID();
 
-    /**
-     * Name of this citizen
-     * @type {string}
-     */
     this.name = generateRandomName();
 
-    /**
-     * Age of the citizen in years
-     * @type {number}
-     */
     this.age = 1 + Math.floor(100 * Math.random());
 
-    /**
-     * The current state of the citizen
-     * @type {'idle' | 'school' | 'employed' | 'unemployed' | 'retired'}
-     */
     this.state = 'idle';
 
-    /**
-     * Number of simulation steps in the current state
-     */
     this.stateCounter = 0;
 
-    /**
-     * Reference to the building the citizen lives at
-     * @type {ResidentialZone}
-     */
     this.residence = residence;
 
-    /**
-     * Reference to the building the citizen works at
-     * @type {CommercialZone | IndustrialZone}
-     */
     this.workplace = null;
 
     this.#initializeState();
@@ -62,10 +32,6 @@ export class Citizen {
     }
   }
 
-  /**
-   * Steps the state of the citizen forward in time by one simulation step
-   * @param {object} city
-   */
   simulate(city) {
     switch (this.state) {
       case 'idle':
@@ -101,11 +67,6 @@ export class Citizen {
     }
   }
 
-  /**
-   * Search for a job nearby
-   * @param {object} city
-   * @returns
-   */
   #findJob(city) {
     const tile = city.findTile(
       this.residence,
@@ -132,18 +93,10 @@ export class Citizen {
     }
   }
 
-  /**
-   * Sets the workplace for the citizen
-   * @param {CommercialZone | IndustrialZone} workplace
-   */
   setWorkplace(workplace) {
     this.workplace = workplace;
   }
 
-  /**
-   * Returns an HTML representation of this object
-   * @returns {string}
-   */
   toHTML() {
     return `
       <li class="info-citizen">
