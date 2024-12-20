@@ -49,7 +49,7 @@ In turn, for power plants there is a need to lay a path
 
 </center>
 
-As a result, if all the necessary objects are moved to the field, construction will begin. In addition, the traffic of cars will appear on the roads, which will automatically appear and run along the path of the road.
+As a result, if all the necessary objects are moved to the field, construction will begin. In addition, the traffic of cars will appear on the roads, which will automatically appear and run along the path of the road. It is also possible to remove an object from the field and pause the game itself
 
 <center>
 
