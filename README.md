@@ -74,7 +74,3 @@ In close perspective, each object has its own texture
 ![](images/7.jpg)
 
 </center>
-
-## Additional information
-
-There are problems with configuring gh-pages, so there is no current version at the moment. Sorry for this =(
