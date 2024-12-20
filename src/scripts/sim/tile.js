@@ -30,7 +30,6 @@ export class Tile extends SimObject {
    * @type {Building} value
    */
   setBuilding(value) {
-    // Remove and dispose resources for existing building
     if (this.#building) {
       this.#building.dispose();
       this.remove(this.#building);
@@ -38,7 +37,6 @@ export class Tile extends SimObject {
 
     this.#building = value;
 
-    // Add to scene graph
     if (value) {
       this.add(this.#building);
     }
@@ -64,15 +62,15 @@ export class Tile extends SimObject {
 
   /**
    * Gets the Manhattan distance between two tiles
-   * @param {Tile} tile 
-   * @returns 
+   * @param {Tile} tile
+   * @returns
    */
   distanceTo(tile) {
     return Math.abs(this.x - tile.x) + Math.abs(this.y - tile.y);
   }
 
   /**
-   * 
+   *
    * @returns {string} HTML representation of this object
    */
   toHTML() {
@@ -92,4 +90,4 @@ export class Tile extends SimObject {
 
     return html;
   }
-};
+}

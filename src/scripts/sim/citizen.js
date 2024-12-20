@@ -5,7 +5,7 @@ import config from '../config.js';
 
 export class Citizen {
   /**
-   * @param {ResidentialZone} residence 
+   * @param {ResidentialZone} residence
    */
   constructor(residence) {
     /**
@@ -24,7 +24,7 @@ export class Citizen {
      * Age of the citizen in years
      * @type {number}
      */
-    this.age = 1 + Math.floor(100*Math.random());
+    this.age = 1 + Math.floor(100 * Math.random());
 
     /**
      * The current state of the citizen
@@ -52,9 +52,6 @@ export class Citizen {
     this.#initializeState();
   }
 
-  /**
-   * Sets the initial state of the citizen
-   */
   #initializeState() {
     if (this.age < config.citizen.minWorkingAge) {
       this.state = 'school';
@@ -67,47 +64,36 @@ export class Citizen {
 
   /**
    * Steps the state of the citizen forward in time by one simulation step
-   * @param {object} city 
+   * @param {object} city
    */
   simulate(city) {
     switch (this.state) {
       case 'idle':
       case 'school':
       case 'retired':
-        // Action - None
-
-        // Transitions - None
-
         break;
       case 'unemployed':
-        // Action - Look for a job
         this.workplace = this.#findJob(city);
 
-        // Transitions
         if (this.workplace) {
           this.state = 'employed';
         }
 
         break;
       case 'employed':
-        // Actions - None
-
-        // Transitions
         if (!this.workplace) {
           this.state = 'unemployed';
         }
 
         break;
       default:
-        console.error(`Citizen ${this.id} is in an unknown state (${this.state})`);
+        console.error(
+          `Citizen ${this.id} is in an unknown state (${this.state})`
+        );
     }
   }
 
-  /**
-   * Handles any clean up needed before a building is removed
-   */
   dispose() {
-    // Remove resident from its  workplace
     const workerIndex = this.workplace?.jobs.workers.indexOf(this);
 
     if (workerIndex !== undefined && workerIndex > -1) {
@@ -117,24 +103,28 @@ export class Citizen {
 
   /**
    * Search for a job nearby
-   * @param {object} city 
-   * @returns 
+   * @param {object} city
+   * @returns
    */
   #findJob(city) {
-    const tile = city.findTile(this.residence, (tile) => {
-      // Search for an industrial or commercial building with at least one available job
-      if (tile.building?.type === 'industrial' || 
-          tile.building?.type === 'commercial') {
-        if (tile.building.jobs.availableJobs > 0) {
-          return true;
+    const tile = city.findTile(
+      this.residence,
+      (tile) => {
+        if (
+          tile.building?.type === 'industrial' ||
+          tile.building?.type === 'commercial'
+        ) {
+          if (tile.building.jobs.availableJobs > 0) {
+            return true;
+          }
         }
-      }
 
-      return false;
-    }, config.citizen.maxJobSearchDistance);
+        return false;
+      },
+      config.citizen.maxJobSearchDistance
+    );
 
     if (tile) {
-      // Employ the citizen at the building
       tile.building.jobs.workers.push(this);
       return tile.building;
     } else {
@@ -144,7 +134,7 @@ export class Citizen {
 
   /**
    * Sets the workplace for the citizen
-   * @param {CommercialZone | IndustrialZone} workplace 
+   * @param {CommercialZone | IndustrialZone} workplace
    */
   setWorkplace(workplace) {
     this.workplace = workplace;
@@ -176,23 +166,65 @@ export class Citizen {
 
 function generateRandomName() {
   const firstNames = [
-    'Emma', 'Olivia', 'Ava', 'Sophia', 'Isabella',
-    'Liam', 'Noah', 'William', 'James', 'Benjamin',
-    'Elizabeth', 'Margaret', 'Alice', 'Dorothy', 'Eleanor',
-    'John', 'Robert', 'William', 'Charles', 'Henry',
-    'Alex', 'Taylor', 'Jordan', 'Casey', 'Robin'
+    'Emma',
+    'Olivia',
+    'Ava',
+    'Sophia',
+    'Isabella',
+    'Liam',
+    'Noah',
+    'William',
+    'James',
+    'Benjamin',
+    'Elizabeth',
+    'Margaret',
+    'Alice',
+    'Dorothy',
+    'Eleanor',
+    'John',
+    'Robert',
+    'William',
+    'Charles',
+    'Henry',
+    'Alex',
+    'Taylor',
+    'Jordan',
+    'Casey',
+    'Robin',
   ];
 
   const lastNames = [
-    'Smith', 'Johnson', 'Williams', 'Jones', 'Brown',
-    'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor',
-    'Anderson', 'Thomas', 'Jackson', 'White', 'Harris',
-    'Clark', 'Lewis', 'Walker', 'Hall', 'Young',
-    'Lee', 'King', 'Wright', 'Adams', 'Green'
+    'Smith',
+    'Johnson',
+    'Williams',
+    'Jones',
+    'Brown',
+    'Davis',
+    'Miller',
+    'Wilson',
+    'Moore',
+    'Taylor',
+    'Anderson',
+    'Thomas',
+    'Jackson',
+    'White',
+    'Harris',
+    'Clark',
+    'Lewis',
+    'Walker',
+    'Hall',
+    'Young',
+    'Lee',
+    'King',
+    'Wright',
+    'Adams',
+    'Green',
   ];
 
-  const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-  const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-  
+  const randomFirstName =
+    firstNames[Math.floor(Math.random() * firstNames.length)];
+  const randomLastName =
+    lastNames[Math.floor(Math.random() * lastNames.length)];
+
   return randomFirstName + ' ' + randomLastName;
 }

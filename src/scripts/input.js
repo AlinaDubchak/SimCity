@@ -1,4 +1,4 @@
-/** 
+/**
  * Manages mouse and keyboard input
  */
 export class InputManager {
@@ -24,15 +24,31 @@ export class InputManager {
   isRightMouseDown = false;
 
   constructor() {
-    window.ui.gameWindow.addEventListener('mousedown', this.#onMouseDown.bind(this), false);
-    window.ui.gameWindow.addEventListener('mouseup', this.#onMouseUp.bind(this), false);
-    window.ui.gameWindow.addEventListener('mousemove', this.#onMouseMove.bind(this), false);
-    window.ui.gameWindow.addEventListener('contextmenu', (event) => event.preventDefault(), false);
+    window.ui.gameWindow.addEventListener(
+      'mousedown',
+      this.#onMouseDown.bind(this),
+      false
+    );
+    window.ui.gameWindow.addEventListener(
+      'mouseup',
+      this.#onMouseUp.bind(this),
+      false
+    );
+    window.ui.gameWindow.addEventListener(
+      'mousemove',
+      this.#onMouseMove.bind(this),
+      false
+    );
+    window.ui.gameWindow.addEventListener(
+      'contextmenu',
+      (event) => event.preventDefault(),
+      false
+    );
   }
 
   /**
    * Event handler for `mousedown` event
-   * @param {MouseEvent} event 
+   * @param {MouseEvent} event
    */
   #onMouseDown(event) {
     if (event.button === 0) {
@@ -48,7 +64,7 @@ export class InputManager {
 
   /**
    * Event handler for `mouseup` event
-   * @param {MouseEvent} event 
+   * @param {MouseEvent} event
    */
   #onMouseUp(event) {
     if (event.button === 0) {
@@ -64,7 +80,7 @@ export class InputManager {
 
   /**
    * Event handler for 'mousemove' event
-   * @param {MouseEvent} event 
+   * @param {MouseEvent} event
    */
   #onMouseMove(event) {
     this.isLeftMouseDown = event.buttons & 1;

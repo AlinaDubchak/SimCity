@@ -14,7 +14,7 @@ export class City extends THREE.Group {
    */
   debugMeshes = new THREE.Group();
   /**
-   * Root node for all scene objects 
+   * Root node for all scene objects
    * @type {THREE.Group}
    */
   root = new THREE.Group();
@@ -38,8 +38,8 @@ export class City extends THREE.Group {
    */
   tiles = [];
   /**
-   * 
-   * @param {VehicleGraph} size 
+   *
+   * @param {VehicleGraph} size
    */
   vehicleGraph;
 
@@ -48,7 +48,7 @@ export class City extends THREE.Group {
 
     this.name = name;
     this.size = size;
-    
+
     this.add(this.debugMeshes);
     this.add(this.root);
 
@@ -66,7 +66,7 @@ export class City extends THREE.Group {
 
     this.services = [];
     this.services.push(new PowerService());
-    
+
     this.vehicleGraph = new VehicleGraph(this.size);
     this.debugMeshes.add(this.vehicleGraph);
   }
@@ -93,9 +93,14 @@ export class City extends THREE.Group {
    * @returns {Tile | null}
    */
   getTile(x, y) {
-    if (x === undefined || y === undefined ||
-      x < 0 || y < 0 ||
-      x >= this.size || y >= this.size) {
+    if (
+      x === undefined ||
+      y === undefined ||
+      x < 0 ||
+      y < 0 ||
+      x >= this.size ||
+      y >= this.size
+    ) {
       return null;
     } else {
       return this.tiles[x][y];
@@ -125,20 +130,17 @@ export class City extends THREE.Group {
   /**
    * Places a building at the specified coordinates if the
    * tile does not already have a building on it
-   * @param {number} x 
-   * @param {number} y 
-   * @param {string} buildingType 
+   * @param {number} x
+   * @param {number} y
+   * @param {string} buildingType
    */
   placeBuilding(x, y, buildingType) {
     const tile = this.getTile(x, y);
 
-    // If the tile doesnt' already have a building, place one there
     if (tile && !tile.building) {
       tile.setBuilding(createBuilding(x, y, buildingType));
       tile.refreshView(this);
-      
-      // Update buildings on adjacent tile in case they need to
-      // change their mesh (e.g. roads)
+
       this.getTile(x - 1, y)?.refreshView(this);
       this.getTile(x + 1, y)?.refreshView(this);
       this.getTile(x, y - 1)?.refreshView(this);
@@ -152,7 +154,7 @@ export class City extends THREE.Group {
 
   /**
    * Bulldozes the building at the specified coordinates
-   * @param {number} x 
+   * @param {number} x
    * @param {number} y
    */
   bulldoze(x, y) {
@@ -167,7 +169,6 @@ export class City extends THREE.Group {
       tile.setBuilding(null);
       tile.refreshView(this);
 
-      // Update neighboring tiles in case they need to change their mesh (e.g. roads)
       this.getTile(x - 1, y)?.refreshView(this);
       this.getTile(x + 1, y)?.refreshView(this);
       this.getTile(x, y - 1)?.refreshView(this);
@@ -193,27 +194,22 @@ export class City extends THREE.Group {
     const visited = new Set();
     const tilesToSearch = [];
 
-    // Initialze our search with the starting tile
     tilesToSearch.push(startTile);
 
     while (tilesToSearch.length > 0) {
       const tile = tilesToSearch.shift();
 
-      // Has this tile been visited? If so, ignore it and move on
       if (visited.has(tile.id)) {
         continue;
       } else {
         visited.add(tile.id);
       }
 
-      // Check if tile is outside the search bounds
       const distance = startTile.distanceTo(tile);
       if (distance > maxDistance) continue;
 
-      // Add this tiles neighbor's to the search list
       tilesToSearch.push(...this.getTileNeighbors(tile.x, tile.y));
 
-      // If this tile passes the criteria 
       if (filter(tile)) {
         return tile;
       }

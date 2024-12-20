@@ -5,7 +5,7 @@ import { InputManager } from './input.js';
 import { City } from './sim/city.js';
 import { SimObject } from './sim/simObject.js';
 
-/** 
+/**
  * Manager for the Three.js scene. Handles rendering of a `City` object
  */
 export class Game {
@@ -32,8 +32,8 @@ export class Game {
   constructor(city) {
     this.city = city;
 
-    this.renderer = new THREE.WebGLRenderer({ 
-      antialias: true
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
     });
     this.scene = new THREE.Scene();
 
@@ -41,7 +41,10 @@ export class Game {
     this.cameraManager = new CameraManager(window.ui.gameWindow);
 
     // Configure the renderer
-    this.renderer.setSize(window.ui.gameWindow.clientWidth, window.ui.gameWindow.clientHeight);
+    this.renderer.setSize(
+      window.ui.gameWindow.clientWidth,
+      window.ui.gameWindow.clientHeight
+    );
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -80,11 +83,11 @@ export class Game {
 
   #setupGrid(city) {
     // Add the grid
-    const gridMaterial = new THREE.MeshBasicMaterial({ 
+    const gridMaterial = new THREE.MeshBasicMaterial({
       color: 0x000000,
       map: window.assetManager.textures['grid'],
       transparent: true,
-      opacity: 0.2
+      opacity: 0.2,
     });
     gridMaterial.map.repeat = new THREE.Vector2(city.size, city.size);
     gridMaterial.map.wrapS = city.size;
@@ -102,7 +105,7 @@ export class Game {
    * Setup the lights for the scene
    */
   #setupLights() {
-    const sun = new THREE.DirectionalLight(0xffffff, 2)
+    const sun = new THREE.DirectionalLight(0xffffff, 2);
     sun.position.set(-10, 20, 0);
     sun.castShadow = true;
     sun.shadow.camera.left = -20;
@@ -117,7 +120,7 @@ export class Game {
     this.scene.add(sun);
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
   }
-  
+
   /**
    * Starts the renderer
    */
@@ -182,7 +185,7 @@ export class Game {
         break;
     }
   }
-  
+
   /**
    * Sets the currently selected object and highlights it
    */
@@ -195,7 +198,7 @@ export class Game {
   /**
    * Sets the object that is currently highlighted
    */
-  updateFocusedObject() {  
+  updateFocusedObject() {
     this.focusedObject?.setFocused(false);
     const newObject = this.#raycast();
     if (newObject !== this.focusedObject) {
@@ -212,13 +215,21 @@ export class Game {
    */
   #raycast() {
     var coords = {
-      x: (this.inputManager.mouse.x / this.renderer.domElement.clientWidth) * 2 - 1,
-      y: -(this.inputManager.mouse.y / this.renderer.domElement.clientHeight) * 2 + 1
+      x:
+        (this.inputManager.mouse.x / this.renderer.domElement.clientWidth) * 2 -
+        1,
+      y:
+        -(this.inputManager.mouse.y / this.renderer.domElement.clientHeight) *
+          2 +
+        1,
     };
 
     this.raycaster.setFromCamera(coords, this.cameraManager.camera);
 
-    let intersections = this.raycaster.intersectObjects(this.city.root.children, true);
+    let intersections = this.raycaster.intersectObjects(
+      this.city.root.children,
+      true
+    );
     if (intersections.length > 0) {
       // The SimObject attached to the mesh is stored in the user data
       const selectedObject = intersections[0].object.userData;
@@ -233,11 +244,14 @@ export class Game {
    */
   onResize() {
     this.cameraManager.resize(window.ui.gameWindow);
-    this.renderer.setSize(window.ui.gameWindow.clientWidth, window.ui.gameWindow.clientHeight);
+    this.renderer.setSize(
+      window.ui.gameWindow.clientWidth,
+      window.ui.gameWindow.clientHeight
+    );
   }
 }
 
 // Create a new game when the window is loaded
 window.onload = () => {
   window.game = new Game();
-}
+};

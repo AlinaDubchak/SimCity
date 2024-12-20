@@ -1,14 +1,16 @@
+/* main.css */
 @font-face {
   font-family: Bebas-Regular;
   src: url('fonts/Bebas-Regular.otf');
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   font-family: Bebas-Regular, sans-serif;
-
-  background: linear-gradient(0deg, #3a5177, #81b1e0);
+  background: linear-gradient(145deg, #1e3c72, #2a5298);
+  color: #ffffff;
 }
 
 h1 {
@@ -66,42 +68,57 @@ h1 {
   position: absolute;
   top: 64px;
   bottom: 0px;
-
   box-shadow: 0px 0px 1px black;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
 .ui-button {
-  height: 48px;
-  width: 48px;
-  margin: 4px 0;
-
-  transition: background-color 0.1s ease-in-out;
-  
-  background-color: #1e2331cd;
+  background: linear-gradient(
+    135deg,
+    #b3cde0,
+    #cce7f0
+  ); /* Пастельний градієнтний фон */
   border: none;
-  border-radius: 8px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 8px; /* Закруглені кути */
+  padding: 10px;
+  cursor: pointer;
+  margin: 8px 0; /* Відступ між кнопками */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Анімація при взаємодії */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Легка тінь */
 }
 
+.ui-button img.toolbar-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.ui-button:hover {
+  transform: translateY(-2px); /* Підняття кнопки при наведенні */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1); /* Посилення тіні */
+}
+
+.ui-button:active {
+  transform: translateY(1px); /* Ефект натискання */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15); /* Зменшення тіні */
+}
+
+/* Для вибраної кнопки */
 .ui-button.selected {
-  background-color: #3a3f50d3;
-  outline: 2px solid rgb(101, 101, 135);
+  background: linear-gradient(
+    135deg,
+    #ffd1dc,
+    #ffe4e1
+  ); /* Пастельний градієнт для вибраної кнопки */
+  box-shadow: 0 4px 6px rgba(255, 209, 220, 0.3),
+    0 1px 3px rgba(255, 209, 220, 0.2);
 }
 
-.ui-button:not(.selected):hover {
-  background-color: #121622d3;
-}
-
-.ui-container {
-  background-color: #33333355;
-  padding: 16px;
+.ui-button.selected:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(255, 209, 220, 0.4),
+    0 3px 6px rgba(255, 209, 220, 0.3);
 }
 
 .toolbar-icon {
@@ -111,24 +128,24 @@ h1 {
 }
 
 /* TITLE BAR */
-
 #title-bar {
   position: fixed;
-
   top: 0;
-  left: 0px;
-  right: 0;
-  height: 48px;
-
-  background-color: #00000048;
-  color: white;
-  padding: 8px;
-
-  box-shadow: 0px 0px 1px black;
-
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: linear-gradient(to right, #3a5177, #81b1e0);
+  color: #ffffff;
+  padding: 0 16px;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+#title-bar.hidden {
+  display: none;
 }
 
 .title-bar-items {
@@ -155,16 +172,14 @@ h1 {
 }
 
 /* INFO PANEL */
-
 #info-panel {
-  visibility: hidden;
+  visibility: visible;
   position: fixed;
   top: 64px;
   right: 0px;
-  padding: 0; 
+  padding: 0;
   padding-bottom: 16px;
   width: 300px;
-
   background-color: #00000048;
 }
 
@@ -173,11 +188,8 @@ h1 {
   font-size: 1em;
   margin-top: 12px;
   margin-bottom: 12px;
-
   background-color: #00000060;
-
   box-shadow: 0px 0px 1px black;
-
   color: white;
   padding: 4px;
 }
@@ -189,7 +201,7 @@ h1 {
 .info-label {
   margin-left: 12px;
   font-size: 1em;
-  color: rgb(193, 193, 193)
+  color: rgb(193, 193, 193);
 }
 
 .info-value {
@@ -230,4 +242,31 @@ h1 {
   display: flex;
   justify-content: flex-start;
   gap: 16px;
+}
+
+/* BOOTSTRAP INTEGRATION */
+.card-header {
+  background: linear-gradient(145deg, #3a5177, #81b1e0);
+  border-radius: 8px 8px 0 0;
+}
+
+.card-body {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 0 0 8px 8px;
+}
+
+#ui-toolbar .btn {
+  background: linear-gradient(145deg, #2a3b5f, #3b4d7a);
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+#ui-toolbar .btn:hover {
+  background: linear-gradient(145deg, #3b4d7a, #506a9e);
+  transform: scale(1.1);
+}
+
+.text-light {
+  color: #d0e7ff !important;
 }
